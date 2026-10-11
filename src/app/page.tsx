@@ -1,69 +1,56 @@
-import Image from "next/image";
+'use client';
+
+import { useMemo, useState } from 'react';
+
+type Property = { id: string; title: string; location: string; type: string; price: string; image: string; tag: string; tone: string };
+const properties: Property[] = [
+  { id: 'IM-2048', title: 'Apartamento solar', location: 'Vila Madalena · São Paulo, SP', type: '2 quartos · 78 m²', price: 'R$ 4.850/mês', image: 'linear-gradient(135deg, #d8c7af 0%, #9d765d 50%, #33413d 100%)', tag: 'Visita hoje', tone: 'sage' },
+  { id: 'IM-1992', title: 'Casa jardim', location: 'Alto da Lapa · São Paulo, SP', type: '3 quartos · 142 m²', price: 'R$ 7.200/mês', image: 'linear-gradient(135deg, #c7d1c5 0%, #718574 48%, #31423e 100%)', tag: 'Novo cadastro', tone: 'gold' },
+  { id: 'IM-1830', title: 'Loft Pinheiros', location: 'Pinheiros · São Paulo, SP', type: '1 quarto · 54 m²', price: 'R$ 3.900/mês', image: 'linear-gradient(135deg, #e1d5c4 0%, #b59874 48%, #5b4039 100%)', tag: 'Em análise', tone: 'clay' },
+];
+const pipeline = [
+  { label: 'Novo lead', count: 18, color: '#8c9b82', cards: [{ name: 'Marina Alves', detail: 'Busca · 2 quartos', time: 'há 16 min', initials: 'MA' }, { name: 'Rafael Moura', detail: 'Captação · Vila Mariana', time: 'há 42 min', initials: 'RM' }] },
+  { label: 'Visita agendada', count: 7, color: '#c29a5b', cards: [{ name: 'Bianca Sato', detail: 'IM-2048 · hoje, 15:30', time: 'Confirmada', initials: 'BS' }] },
+  { label: 'Proposta', count: 4, color: '#6f8790', cards: [{ name: 'Lucas Ferreira', detail: 'R$ 4.600 · IM-1873', time: 'aguarda retorno', initials: 'LF' }] },
+];
+const navItems: [string, string][] = [['⌂', 'Visão geral'], ['⌕', 'Imóveis'], ['◎', 'Leads & CRM'], ['▣', 'Contratos'], ['◫', 'Financeiro'], ['♧', 'Condomínios']];
+function Icon({ children }: { children: React.ReactNode }) { return <span className="icon" aria-hidden="true">{children}</span>; }
 
 export default function Home() {
+  const [activeNav, setActiveNav] = useState('Visão geral');
+  const [showSimulator, setShowSimulator] = useState(false);
+  const [income, setIncome] = useState(12000);
+  const [search, setSearch] = useState('');
+  const [notice, setNotice] = useState('');
+  const filteredProperties = useMemo(() => properties.filter((property) => `${property.title} ${property.location}`.toLowerCase().includes(search.toLowerCase())), [search]);
+  const rentLimit = Math.round(income * 0.3);
+  function handleAction(message: string) { setNotice(message); window.setTimeout(() => setNotice(''), 2600); }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="app-shell">
+      <aside className="sidebar">
+        <div className="brand"><div className="brand-mark">A<span>↗</span></div><div><strong>áurea</strong><small>plataforma imobiliária</small></div></div>
+        <div className="workspace"><span className="workspace-dot" /> Áurea Imóveis <span className="chevron">⌄</span></div>
+        <nav className="main-nav" aria-label="Navegação principal"><p className="nav-label">Operação</p>{navItems.map(([icon, label]) => <button key={label} className={`nav-item ${activeNav === label ? 'active' : ''}`} onClick={() => { setActiveNav(label); handleAction(`${label} selecionado`); }}><Icon>{icon}</Icon>{label}{label === 'Leads & CRM' && <span className="nav-count">12</span>}</button>)}<p className="nav-label nav-label-spaced">Gestão</p><button className={`nav-item ${activeNav === 'Relatórios' ? 'active' : ''}`} onClick={() => setActiveNav('Relatórios')}><Icon>▥</Icon>Relatórios</button><button className={`nav-item ${activeNav === 'Configurações' ? 'active' : ''}`} onClick={() => setActiveNav('Configurações')}><Icon>⚙</Icon>Configurações</button></nav>
+        <div className="sidebar-bottom"><div className="help-card"><span className="help-icon">?</span><div><strong>Precisa de ajuda?</strong><small>Fale com nosso suporte</small></div><span>→</span></div><div className="profile"><div className="avatar avatar-dark">CS</div><div><strong>Camila Souza</strong><small>Administradora</small></div><span className="more">•••</span></div></div>
+      </aside>
+      <section className="content">
+        <header className="topbar"><div className="breadcrumb"><span>Operação</span><b>/</b><strong>{activeNav}</strong></div><div className="top-actions"><button className="icon-button" aria-label="Notificações" onClick={() => handleAction('Você não tem novas notificações')}>♧<i /></button><div className="top-divider" /><div className="avatar avatar-gold">CS</div><span className="top-name">Camila Souza</span><span className="chevron">⌄</span></div></header>
+        <div className="page-body">
+          <div className="greeting-row"><div><p className="eyebrow">QUARTA-FEIRA, 11 DE OUTUBRO DE 2026</p><h1>Bom dia, Camila <span>✦</span></h1><p className="intro">Aqui está o resumo da sua operação hoje.</p></div><button className="primary-button" onClick={() => handleAction('Fluxo de novo cadastro iniciado')}><span>＋</span> Novo cadastro</button></div>
+          {notice && <div className="toast">✓ {notice}</div>}
+          <section className="metric-grid" aria-label="Indicadores principais"><div className="metric-card"><div className="metric-head"><span>Imóveis ativos</span><span className="metric-icon green">⌂</span></div><strong>248</strong><div className="metric-foot positive">↗ <b>12,4%</b><span>vs. mês anterior</span></div></div><div className="metric-card"><div className="metric-head"><span>Leads em andamento</span><span className="metric-icon blue">◎</span></div><strong>86</strong><div className="metric-foot positive">↗ <b>8,2%</b><span>vs. mês anterior</span></div></div><div className="metric-card"><div className="metric-head"><span>Taxa de conversão</span><span className="metric-icon gold">◉</span></div><strong>18,6%</strong><div className="metric-foot positive">↗ <b>2,1 p.p.</b><span>vs. mês anterior</span></div></div><div className="metric-card highlight"><div className="metric-head"><span>Receita prevista</span><span className="metric-icon dark">R$</span></div><strong>R$ 94.280</strong><div className="metric-foot positive">↗ <b>15,8%</b><span>vs. mês anterior</span></div></div></section>
+          <section className="section-heading"><div><p className="eyebrow">ACOMPANHE DE PERTO</p><h2>O que está acontecendo</h2></div><button className="text-button" onClick={() => handleAction('Abrindo todos os indicadores')}>Ver todos os indicadores <span>→</span></button></section>
+          <section className="insights-grid"><div className="chart-card"><div className="card-title-row"><div><h3>Performance da operação</h3><p>Leads convertidos nos últimos 30 dias</p></div><button className="select-button">Últimos 30 dias <span>⌄</span></button></div><div className="chart-wrap"><div className="chart-y"><span>40</span><span>30</span><span>20</span><span>10</span><span>0</span></div><div className="chart"><div className="grid-lines"><i /><i /><i /><i /><i /></div><svg viewBox="0 0 600 190" preserveAspectRatio="none" role="img" aria-label="Gráfico de leads convertidos"><defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor="#a6b39e" stopOpacity=".35"/><stop offset="100%" stopColor="#a6b39e" stopOpacity="0"/></linearGradient></defs><path d="M0 158 C35 148 44 145 68 148 S110 128 135 137 S170 121 193 128 S223 113 245 123 S274 104 300 111 S325 93 350 105 S385 83 410 94 S435 72 462 80 S495 55 520 63 S558 35 600 42 L600 190 L0 190 Z" fill="url(#area)"/><path d="M0 158 C35 148 44 145 68 148 S110 128 135 137 S170 121 193 128 S223 113 245 123 S274 104 300 111 S325 93 350 105 S385 83 410 94 S435 72 462 80 S495 55 520 63 S558 35 600 42" fill="none" stroke="#71856f" strokeWidth="3" strokeLinecap="round"/></svg><div className="chart-x"><span>12 set</span><span>19 set</span><span>26 set</span><span>03 out</span><span>10 out</span></div></div></div></div><div className="activity-card"><div className="card-title-row"><div><h3>Atividade recente</h3><p>As últimas movimentações da equipe</p></div><button className="dots-button">•••</button></div><div className="activity-list"><div className="activity-item"><div className="activity-icon sage">⌂</div><div><p><strong>Novo imóvel cadastrado</strong><br /><span>Casa jardim · Alto da Lapa</span></p><small>há 18 min · por Lucas F.</small></div></div><div className="activity-item"><div className="activity-icon clay">↗</div><div><p><strong>Proposta atualizada</strong><br /><span>Apto solar · IM-2048</span></p><small>há 42 min · por você</small></div></div><div className="activity-item"><div className="activity-icon blue">✓</div><div><p><strong>Contrato assinado</strong><br /><span>Loft Pinheiros · IM-1830</span></p><small>há 1h · por Marina A.</small></div></div></div><button className="full-text-button" onClick={() => handleAction('Histórico de atividades aberto')}>Ver histórico completo <span>→</span></button></div></section>
+          <section className="section-heading property-heading"><div><p className="eyebrow">PORTFÓLIO</p><h2>Imóveis em destaque</h2></div><div className="heading-actions"><div className="search-box"><span>⌕</span><input aria-label="Buscar imóvel" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar imóvel..." /></div><button className="text-button" onClick={() => handleAction('Lista completa de imóveis aberta')}>Ver todos <span>→</span></button></div></section>
+          <section className="property-grid">{filteredProperties.map((property) => <article className="property-card" key={property.id}><div className="property-image" style={{ background: property.image }}><span className={`property-tag ${property.tone}`}>{property.tag}</span><button className="heart" aria-label={`Favoritar ${property.title}`} onClick={() => handleAction(`${property.title} adicionado aos favoritos`)}>♡</button><div className="image-lines" /></div><div className="property-info"><div><p className="property-id">{property.id}</p><h3>{property.title}</h3><p className="property-location">⌖ {property.location}</p></div><div className="property-bottom"><span>{property.type}</span><strong>{property.price}</strong></div></div></article>)}</section>
+          <section className="section-heading pipeline-heading"><div><p className="eyebrow">CRM & CAPTAÇÃO</p><h2>Pipeline de leads</h2></div><button className="text-button" onClick={() => handleAction('CRM aberto')}>Abrir CRM <span>→</span></button></section>
+          <section className="pipeline-grid">{pipeline.map((column) => <div className="pipeline-column" key={column.label}><div className="pipeline-title"><div><span className="pipeline-dot" style={{ background: column.color }} />{column.label}</div><span className="pipeline-count">{column.count}</span></div>{column.cards.map((card) => <div className="lead-card" key={card.name}><div className="avatar avatar-small">{card.initials}</div><div><strong>{card.name}</strong><p>{card.detail}</p><small>{card.time}</small></div><button aria-label={`Mais opções para ${card.name}`}>•••</button></div>)}<button className="add-lead" onClick={() => handleAction(`Lead adicionado em ${column.label}`)}>＋ Adicionar lead</button></div>)}</section>
+          <section className="simulation-banner"><div><p className="eyebrow">PRÓXIMO PASSO</p><h2>Ajude seu cliente a tomar a melhor decisão.</h2><p>Simule agora a capacidade de locação com transparência e segurança.</p></div><button className="secondary-button" onClick={() => setShowSimulator(true)}>Abrir simulador <span>→</span></button></section>
+          <footer><span>Áurea · Operação imobiliária inteligente</span><span>Dados atualizados há 5 min · <b className="status-dot" /> Sistema operacional</span></footer>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </section>
+      {showSimulator && <div className="modal-backdrop" onClick={() => setShowSimulator(false)}><div className="simulator-modal" role="dialog" aria-modal="true" aria-labelledby="simulator-title" onClick={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setShowSimulator(false)}>×</button><p className="eyebrow">SIMULAÇÃO DE CAPACIDADE</p><h2 id="simulator-title">Quanto seu cliente pode pagar?</h2><p className="modal-copy">A regra de transparência considera até 30% da renda mensal bruta.</p><label htmlFor="income">Renda mensal bruta</label><div className="currency-input"><span>R$</span><input id="income" type="number" value={income} onChange={(event) => setIncome(Number(event.target.value))} /></div><div className="simulation-result"><span>Aluguel recomendado até</span><strong>R$ {rentLimit.toLocaleString('pt-BR')}</strong><small>Inclui margem para taxas e encargos</small></div><button className="primary-button full-button" onClick={() => { setShowSimulator(false); handleAction('Simulação salva no histórico do cliente'); }}>Salvar simulação <span>→</span></button></div></div>}
+    </main>
   );
 }

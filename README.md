@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Áurea — Plataforma Imobiliária
 
-## Getting Started
+MVP local de uma plataforma imobiliária digital, baseado no documento arquitetural anexado e nas referências de design, engenharia e testes selecionadas no GitHub.
 
-First, run the development server:
+## Rodar localmente
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy na Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+O projeto está preparado para deploy como uma aplicação Next.js estática/interativa, sem dependência de servidor local ou serviços Manus. Para publicar:
 
-## Learn More
+1. Crie um repositório no GitHub e envie este diretório.
+2. No painel da Vercel, selecione **Add New Project** e importe o repositório.
+3. Mantenha o framework **Next.js** e use os comandos definidos em `vercel.json` (`npm ci` para instalação e `npm run build` para compilação).
+4. Publique o projeto. O domínio `.vercel.app` será criado automaticamente; depois você pode associar um domínio próprio nas configurações do projeto.
 
-To learn more about Next.js, take a look at the following resources:
+O arquivo `.env.example` lista as variáveis reservadas para a futura conexão com banco de dados, autenticação, armazenamento, assinatura eletrônica e pagamentos. Nenhuma credencial real está incluída.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Verificações
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run lint
+npm run build
+```
 
-## Deploy on Vercel
+## Escopo atual
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+A primeira entrega implementa o dashboard operacional da Fase 1 — Locação & Captação: KPIs, atividade recente, imóveis em destaque, pipeline de leads e simulador de capacidade de locação. Dados ainda são locais/mockados para validar experiência e arquitetura de interface.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Próximos passos
+
+Consulte [plan.md](./plan.md) e [TODO.md](./TODO.md) para a arquitetura modular e os próximos resultados.
