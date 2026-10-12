@@ -1,6 +1,6 @@
 # Áurea — Plataforma Imobiliária
 
-MVP local de uma plataforma imobiliária digital, baseado no documento arquitetural anexado e nas referências de design, engenharia e testes selecionadas no GitHub.
+Frontend operacional em Next.js + TypeScript para validar a visão de produto da plataforma Áurea antes da conexão com backend e APIs externas.
 
 ## Rodar localmente
 
@@ -11,17 +11,6 @@ npm run dev
 
 Abra [http://localhost:3000](http://localhost:3000).
 
-## Deploy na Vercel
-
-O projeto está preparado para deploy como uma aplicação Next.js estática/interativa, sem dependência de servidor local ou serviços Manus. Para publicar:
-
-1. Crie um repositório no GitHub e envie este diretório.
-2. No painel da Vercel, selecione **Add New Project** e importe o repositório.
-3. Mantenha o framework **Next.js** e use os comandos definidos em `vercel.json` (`npm ci` para instalação e `npm run build` para compilação).
-4. Publique o projeto. O domínio `.vercel.app` será criado automaticamente; depois você pode associar um domínio próprio nas configurações do projeto.
-
-O arquivo `.env.example` lista as variáveis reservadas para a futura conexão com banco de dados, autenticação, armazenamento, assinatura eletrônica e pagamentos. Nenhuma credencial real está incluída.
-
 ## Verificações
 
 ```bash
@@ -29,10 +18,29 @@ npm run lint
 npm run build
 ```
 
-## Escopo atual
+## O que está ajustado no frontend
 
-A primeira entrega implementa o dashboard operacional da Fase 1 — Locação & Captação: KPIs, atividade recente, imóveis em destaque, pipeline de leads e simulador de capacidade de locação. Dados ainda são locais/mockados para validar experiência e arquitetura de interface.
+- Dashboard com KPIs, gráfico com períodos locais e portfólio.
+- Navegação funcional entre todos os módulos da operação.
+- Cadastro local de imóvel via modal.
+- Busca e filtros locais por finalidade de imóvel.
+- Favoritos com estado visual e feedback por toast.
+- Pipeline de leads com criação e avanço entre etapas.
+- Busca e filtro por status na tela de contratos.
+- Simulador de comissão para locação e venda.
+- Exportação local do extrato financeiro em CSV.
+- Estados de vazio para buscas sem resultados.
+- Feedback local para ações, filtros, relatórios, configurações e portais.
+- Layout responsivo para desktop e mobile.
 
-## Próximos passos
+## Limites intencionais desta fase
 
-Consulte [plan.md](./plan.md) e [TODO.md](./TODO.md) para a arquitetura modular e os próximos resultados.
+Nenhum backend, banco de dados, autenticação ou API externa está conectado. Os dados são mockados e vivem apenas no estado da sessão do navegador; ao recarregar a página, a demonstração retorna aos dados iniciais.
+
+As áreas de integração estão representadas na interface e documentadas para a próxima fase: persistência, autenticação, pagamentos, assinatura eletrônica, WhatsApp, armazenamento de documentos e auditoria.
+
+## Deploy na Vercel
+
+O projeto está preparado para deploy como aplicação Next.js. O `.env.example` contém apenas nomes reservados para integrações futuras; nenhuma credencial real é necessária para rodar esta versão.
+
+Consulte [plan.md](./plan.md) e [TODO.md](./TODO.md) para a próxima evolução.

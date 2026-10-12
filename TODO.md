@@ -1,11 +1,25 @@
-# Próximos resultados
+# Próximos resultados — após o frontend
 
-- [ ] **Persistência do ciclo de locação** — criar migrations e repositórios para usuário, imóvel, lead, proposta e contrato, mantendo IDs UUID, estados explícitos e trilha de auditoria.
-- [ ] **Autenticação e papéis** — permitir login por e-mail ou celular e aplicar permissões para cliente, proprietário, inquilino, corretor e administradora.
-- [ ] **Cadastro de imóveis** — implementar formulário com endereço, finalidade, valores, disponibilidade, documentos, fotos e histórico de alterações.
-- [ ] **CRM de captação** — persistir pipeline, origem do lead, follow-up, responsável, histórico e transições entre novo lead, visita, proposta e contrato.
-- [ ] **Locação transparente** — transformar o simulador em fluxo persistente com renda, descontos, encargos, garantias e feedback do próximo passo.
-- [ ] **Contratos e documentos** — gerar versões, solicitar assinatura eletrônica, registrar auditoria e armazenar arquivos com controle de acesso.
-- [ ] **Cobrança e repasses** — modelar boleto/Pix, taxas, impostos, comissões, repasses e extratos detalhados.
-- [ ] **Testes E2E críticos** — cobrir busca de imóvel, criação de lead, simulador de locação e transição de proposta usando locators por papel e estados isolados.
-- [ ] **Observabilidade** — adicionar logs estruturados, métricas dos KPIs do PDF e fila de exceções para o painel administrativo.
+A camada de interface está pronta para receber serviços reais. Estes itens permanecem intencionalmente desconectados nesta fase:
+
+- [ ] Persistência do ciclo de locação com PostgreSQL e migrations.
+- [ ] Autenticação, sessão e papéis de acesso.
+- [ ] APIs CRUD para imóveis, leads, propostas, contratos e condomínios.
+- [ ] Upload e armazenamento de fotos e documentos.
+- [ ] Assinatura eletrônica e trilha de auditoria.
+- [ ] Cobranças, boletos/Pix, taxas e repasses reais.
+- [ ] Integrações com WhatsApp, e-mail e calendário.
+- [ ] Observabilidade, logs, backups e políticas LGPD.
+- [ ] Testes E2E com Playwright usando os fluxos já existentes na interface.
+
+## Entregue nesta fase
+
+- [x] Navegação entre os módulos da operação.
+- [x] Busca e filtros locais de imóveis.
+- [x] Cadastro local de imóvel.
+- [x] Favoritos locais.
+- [x] Pipeline local de leads.
+- [x] Busca e filtro de contratos.
+- [x] Simulador local de comissão.
+- [x] Exportação local do extrato financeiro em CSV.
+- [x] Estados de vazio e feedback visual por toast.
